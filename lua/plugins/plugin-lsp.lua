@@ -83,11 +83,11 @@ return {
                 mapping = cmp.mapping.preset.insert({
                     ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
                     ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-                    ['<Cr>'] = cmp.mapping.confirm({ select = true }),
-                    -- ['<Tab>'] = cmp.mapping.complete(),
-                    -- ['<Esc>'] = cmp.mapping.abort(),
-                    ['<Esc>'] = cmp.mapping.close(),
-                    -- ['<Esc>'] = cmp.mapping.cancel(),
+                    ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+                    -- ['<C-Space>'] = cmp.mapping.complete(),
+                    -- -- ['<Esc>'] = cmp.mapping.abort(),
+                    -- ['<Esc>'] = cmp.mapping.close(),
+                    -- -- ['<Esc>'] = cmp.mapping.cancel(),
                 }),
                 snippet = {
                     expand = function(args)
