@@ -1,8 +1,7 @@
 return {
     {
         "folke/tokyonight.nvim",
-        lazy = true,
-        opts = { style = "moon" },
+        opts = {},
 
         config = function()
             vim.cmd("colorscheme tokyonight")
@@ -56,17 +55,17 @@ return {
     -- {
     --     'morhetz/gruvbox',
     --
-    --     -- config = function()
-    --     --     vim.cmd("colorscheme gruvbox")
-    --     -- end,
+    --     config = function()
+    --         vim.cmd("colorscheme gruvbox")
+    --     end,
     -- },
-    --
+
     -- { 
     --     "rose-pine/neovim", name = "rose-pine", 
     --
-    --     -- config = function()
-    --     --     vim.cmd("colorscheme tokyonight")
-    --     -- end,
+    --     config = function()
+    --         vim.cmd("colorscheme rose-pine")
+    --     end,
     --
     -- },
 }
