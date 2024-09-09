@@ -35,13 +35,10 @@ return {
 
             require('mason').setup({})
             require('mason-lspconfig').setup({
-                -- ensure_installed = {'tsserver', 'rust_analyzer'},
-                ensure_installed = {},
+                ensure_installed = {'bashls', 'clangd', 'ts_ls', 'pyright', 'jdtls', 'dockerls', 'lua_ls', 'rust_analyzer'},
+                automatic_installation = true,
                 handlers = {
                     function(server_name)
-                        if server_name == 'tsserver' then
-                            server_name = 'ts_ls'
-                        end
                         require('lspconfig')[server_name].setup({
                             capabilities = lsp_capabilities,
                         })
