@@ -9,7 +9,7 @@ vim.opt.softtabstop = 4 -- number of spacesin tab when editing
 vim.opt.shiftwidth = 4 -- insert 4 spaces on a tab
 vim.opt.expandtab = true -- tabs are spaces, mainly because of python
 
-vim.opt.smartindent = true 
+vim.opt.smartindent = true
 
 vim.opt.wrap = false
 
@@ -36,6 +36,6 @@ vim.opt.scrolloff = 8
 vim.g.netrw_banner = 0
 vim.g.netrw_liststyle = 0
 vim.g.netrw_browse_split = 3
-vim.g.netrw_altv = 1 
+vim.g.netrw_altv = 1
 vim.g.netrw_alto = 1
 vim.g.netrw_winsize = 75
