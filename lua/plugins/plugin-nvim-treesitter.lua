@@ -1,46 +1,31 @@
 return {
-
     {
         "nvim-treesitter/nvim-treesitter",
+        branch = "main", -- Keep on the main branch for perfect compatibility with Neovim 0.12
+        build = ":TSUpdate",
 
+        -- 1. Replace the deprecated rainbow parentheses with its modern, independent successor
         dependencies = {
-            "HiPhish/nvim-ts-rainbow2",
+            "HiPhish/rainbow-delimiters.nvim", 
         },
 
-        build = function()
-            require("nvim-treesitter.install").update({ with_sync = true })()
-        end,
-
         config = function()
-            require'nvim-treesitter.configs'.setup {
-                -- A list of parser names, or "all" (the listed parsers MUST always be installed)
-                ensure_installed = { "c", "cpp", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "java", "python", "javascript", "typescript" },
-
-                -- Install parsers synchronously (only applied to `ensure_installed`)
-                sync_install = false,
-
-                -- Automatically install missing parsers when entering buffer
-                -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-                auto_install = true,
-
-                highlight = {
-                    enable = true,
-
-                    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-                    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-                    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-                    -- Instead of true it can also be a list of languages
-                    additional_vim_regex_highlighting = false,
-                },
-
-                rainbow = {
-                    enabled = true,
-                    query = 'rainbow-parens',
-                    strategy = require('ts-rainbow').strategy.global,
-                },
-
+            -- 2. The main branch removed the complex configs.setup, returning to a minimalist approach
+            -- Directly call install to asynchronously install your required parsers
+            local ensure_installed = { 
+                "c", "cpp", "lua", "vim", "vimdoc", "query", 
+                "markdown", "markdown_inline", "java", "python", 
+                "javascript", "typescript" 
             }
+            require("nvim-treesitter").install(ensure_installed)
+
+            -- 3. Enable highlighting: the main branch hands highlighting control back to the native Neovim API
+            vim.api.nvim_create_autocmd("FileType", {
+                callback = function()
+                    -- Attempt to start native treesitter highlighting for the current file type (silently skips if the parser is not installed)
+                    pcall(vim.treesitter.start)
+                end,
+            })
         end,
     }
-
 }
