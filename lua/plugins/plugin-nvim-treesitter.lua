@@ -21,6 +21,7 @@ return {
 
             -- 3. Enable highlighting: the main branch hands highlighting control back to the native Neovim API
             vim.api.nvim_create_autocmd("FileType", {
+                group = vim.api.nvim_create_augroup("user_treesitter", { clear = true }),
                 callback = function()
                     -- Attempt to start native treesitter highlighting for the current file type (silently skips if the parser is not installed)
                     pcall(vim.treesitter.start)

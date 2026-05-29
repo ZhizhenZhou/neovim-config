@@ -14,7 +14,7 @@ return {
         },
         config = function()
             vim.api.nvim_create_autocmd('LspAttach', {
-                -- group = vim.api.nvim_create_augroup('user_lsp_attach', {clear = true}),
+                group = vim.api.nvim_create_augroup('user_lsp_attach', {clear = true}),
                 callback = function(event)
                     local opts = {buffer = event.buf}
 
@@ -35,7 +35,7 @@ return {
 
             require('mason').setup({})
             require('mason-lspconfig').setup({
-                ensure_installed = {'bashls', 'clangd', 'ts_ls', 'pyright', 'jdtls', 'dockerls', 'lua_ls', 'rust_analyzer'},
+                ensure_installed = {'bashls', 'clangd', 'ts_ls', 'pyright', 'dockerls', 'lua_ls', 'rust_analyzer'},
                 automatic_installation = true,
                 handlers = {
                     function(server_name)
