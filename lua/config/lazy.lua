@@ -32,4 +32,6 @@ require("lazy").setup({
     install = { colorscheme = { "habamax" } },
     -- automatically check for plugin updates
     checker = { enabled = true },
+    -- 不使用 luarocks 插件通道（所有插件从 GitHub 拉取）；关掉后 checkhealth 不再报 hererocks 警告
+    rocks = { enabled = false },
 })
