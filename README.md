@@ -108,7 +108,7 @@ Leader 是 **空格**。以下全部可执行验证，来源文件见括号。
 
 ## 设计取舍
 
-- **telescope 钉在 `0.1.8`**：0.1.x 后 API 变动频繁，锁定版本避免升级即坏；其余插件靠 lazy-lock.json 锁定。
+- **telescope 钉在 `0.1.8`**：0.1.x 后 API 变动频繁，锁定版本避免升级即坏；其余插件采用**滚动版本**，新机器安装当日的最新版，本机 `lazy-lock.json` 不入库。
 - **treesitter 用 main 分支**：0.12 起 treesitter 回归极简配置（`install()` + 原生 `vim.treesitter.start`），旧 `setup` API 已废弃。
 - **netrw 做文件浏览**而非 nvim-tree：内置、零配置，`options.lua` 里已调优；砍掉了一个插件依赖。
 - **WSL 剪贴板桥接**写死在 `remap.lua`，非 WSL 环境自动跳过。
