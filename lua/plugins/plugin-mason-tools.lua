@@ -6,12 +6,23 @@
 -- 新机器首次启动时自动补齐，无需手动 :Mason install。
 --
 -- 幂等：已安装的工具在启动时不做任何事（不联网、不查 registry）。
+--
+-- 执行顺序坑：本文件的 config 早于 plugin-lsp.lua 里的 mason.setup() 运行，
+-- 而 registry 清单是在 mason.setup() 中通过 Registry.sources:append() 注册的。
+-- 在 setup 之前 Registry.sources 是空集合，is_installed/has_package 一律查不到东西，
+-- 导致新机器上工具永远装不上（误报“不在 registry 中”）。故此处先确保 setup 已执行。
 
 return {
     {
         "williamboman/mason.nvim",
         lazy = false, -- 工具安装与 LSP 无关，声明本身需要尽早执行
         config = function()
+            -- registry 清单依赖 mason.setup() 注册；本 config 可能先于它执行，先补一次
+            -- setup 是幂等的（sources:unique_insert 去重），plugin-lsp.lua 后续再调无副作用
+            if not require("mason").has_setup then
+                require("mason").setup({})
+            end
+
             -- 需要自动安装的 mason 工具（与 plugin-format.lua 的 formatter 列表对应）
             local tools = { "stylua", "shfmt", "prettier" }
 
