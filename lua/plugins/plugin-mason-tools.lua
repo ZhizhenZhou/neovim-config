@@ -26,6 +26,15 @@ return {
             -- 需要自动安装的 mason 工具（与 plugin-format.lua 的 formatter 列表对应）
             local tools = { "stylua", "shfmt", "prettier" }
 
+            -- 预检：mason 遇到 zip 格式的包（stylua / clangd 等）要调系统 unzip 解压，
+            -- 缺失时报的是 mason 内部路径的 spawn 错误，现场很难联想到系统缺包
+            if vim.fn.executable("unzip") == 0 then
+                vim.notify(
+                    "mason: 系统缺少 unzip，zip 格式的工具包将安装失败，请执行: sudo apt install -y unzip",
+                    vim.log.levels.WARN
+                )
+            end
+
             local registry = require("mason-registry")
             local missing = vim.tbl_filter(function(tool)
                 return not registry.is_installed(tool)

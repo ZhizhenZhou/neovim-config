@@ -124,6 +124,11 @@ Leader 是 **空格**。以下全部可执行验证，来源文件见括号。
 
 > `stylua` / `shfmt` / `prettier` 走 mason 而不是系统包管理，是为了和 LSP 共用一套安装机制。
 
+> **系统依赖提醒**：mason 下载的工具包分两种格式，`.tar.gz` 自带解压，`.zip` 需要系统的 `unzip`
+> （`stylua` / `clangd` 属于后者）。缺 `unzip` 时 mason 报的是内部路径的 `spawn: unzip failed`，
+> 很难联想到系统缺包，所以 `plugin-mason-tools.lua` 启动时会预检并直接提示安装命令。
+> 完整系统依赖见 [dot-config/neovim/README.md](https://github.com/ZhizhenZhou/dot-config/blob/main/neovim/README.md)。
+
 ## 设计取舍
 
 - **插件全部滚动版本**：任何插件都不钉版本，新机器安装当日的最新 commit，本机 `lazy-lock.json` 不入库。代价是接受“上游 breaking change 偶尔需要修一下”的概率（实测可控）；换来的是仓库无版本快照噪音。
