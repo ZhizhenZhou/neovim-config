@@ -109,7 +109,7 @@ Leader 是 **空格**。以下全部可执行验证，来源文件见括号。
 ## LSP 与格式化覆盖范围
 
 - **LSP**（mason 自动安装）：`bashls` `clangd` `ts_ls` `pyright` `dockerls` `lua_ls` `rust_analyzer`
-- **保存时格式化**：lua→stylua，python→ruff_format，sh/zsh/bash→shfmt，js/ts/json/css/html/md→prettier
+- **保存时格式化**：lua→stylua，sh/zsh/bash→shfmt，js/ts/json/css/html/md→prettier
 - **treesitter 解析器**：c/cpp/lua/vim/vimdoc/query/markdown/java/python/js/ts（首次打开文件时自动安装）
 
 上述三类都是**声明在配置里、新机器首次启动自动装齐**，无需手动 `:Mason install`：
@@ -120,7 +120,7 @@ Leader 是 **空格**。以下全部可执行验证，来源文件见括号。
 | 格式化器（stylua/shfmt/prettier） | `plugin-mason-tools.lua` 的 `tools` | 启动时检测到缺失才装；已装齐则不联网 |
 | treesitter 解析器 | `plugin-nvim-treesitter.lua` 的 `ensure_installed` | 首次打开对应语言文件时 |
 
-> 格式化器走 mason 而不是系统包管理，是为了和 LSP 共用一套安装机制。
+> `stylua` / `shfmt` / `prettier` 走 mason 而不是系统包管理，是为了和 LSP 共用一套安装机制。
 
 ## 设计取舍
 
