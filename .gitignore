@@ -1,1 +1,4 @@
 lazy-lock.json
+
+# 操作系统噪声
+.DS_Store

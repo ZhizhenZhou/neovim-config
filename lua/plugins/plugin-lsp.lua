@@ -8,9 +8,6 @@ return {
             'hrsh7th/cmp-nvim-lsp',
             'hrsh7th/cmp-buffer',
             'hrsh7th/cmp-path',
-            'saadparwaiz1/cmp_luasnip',
-            'L3MON4D3/LuaSnip',
-            'rafamadriz/friendly-snippets',
         },
         config = function()
             vim.api.nvim_create_autocmd('LspAttach', {
@@ -31,53 +28,26 @@ return {
                 end,
             })
 
-            local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
-
             require('mason').setup({})
+            -- mason-lspconfig v2：ensure_installed 里的 server 会被自动 enable，
+            -- 不再需要 handlers 回调（该选项已从 v2 移除，写了也不生效）
             require('mason-lspconfig').setup({
                 ensure_installed = {'bashls', 'clangd', 'ts_ls', 'pyright', 'dockerls', 'lua_ls', 'rust_analyzer'},
-                handlers = {
-                    function(server_name)
-                        require('lspconfig')[server_name].setup({
-                            capabilities = lsp_capabilities,
-                        })
-                    end,
-                    lua_ls = function()
-                        require('lspconfig').lua_ls.setup({
-                            capabilities = lsp_capabilities,
-                            settings = {
-                                Lua = {
-                                    runtime = {
-                                        version = 'LuaJIT'
-                                    },
-                                    diagnostics = {
-                                        globals = {'vim'},
-                                    },
-                                    workspace = {
-                                        library = {
-                                            vim.env.VIMRUNTIME,
-                                        }
-                                    }
-                                }
-                            }
-                        })
-                    end,
-                }
             })
 
             local cmp = require('cmp')
             local cmp_select = {behavior = cmp.SelectBehavior.Select}
 
-            -- this is the function that loads the extra snippets to luasnip
-            -- from rafamadriz/friendly-snippets
-            require('luasnip.loaders.from_vscode').lazy_load()
-
+            -- 注：代码片段（snippets）未启用。原先挂着 LuaSnip / cmp_luasnip /
+            -- friendly-snippets 三个依赖，但 luasnip 补全源一直是注释状态，
+            -- 属于从旧配置继承的死代码，已删除。如需启用：
+            -- 加回上述三个依赖 + {name = 'luasnip', keyword_length = 2} 补全源
+            -- + snippet.expand，并给 LSP 补上 cmp 的 capabilities。
             cmp.setup({
                 sources = {
                     {name = 'buffer'},
                     {name = 'path'},
                     {name = 'nvim_lsp'},
-                    -- {name = 'luasnip', keyword_length = 2},
                 },
                 mapping = cmp.mapping.preset.insert({
                     ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
@@ -88,11 +58,6 @@ return {
                     -- ['<Esc>'] = cmp.mapping.close(),
                     -- -- ['<Esc>'] = cmp.mapping.cancel(),
                 }),
-                snippet = {
-                    expand = function(args)
-                        require('luasnip').lsp_expand(args.body)
-                    end,
-                },
             })
         end,
     },
