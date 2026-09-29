@@ -53,7 +53,9 @@ Leader 是 **空格**。以下全部可执行验证，来源文件见括号。
 | `<leader>k` / `<leader>j` | n | location list 下一条 / 上一条 |
 | `<leader><leader>` | n | source 当前文件 |
 
-> WSL 下剪贴板自动桥接到 Windows（`clip.exe` / PowerShell），无需手动配置。
+> WSL 下剪贴板自动桥接到 Windows（复制走 `clip.exe`，粘贴走 PowerShell），无需手动配置。
+> 粘贴命令必须把 `-Command` 的参数用**单引号整体包住**——否则 `$(...)` 会被 shell 当命令替换、
+> `[Console]::Out.Write(...)` 的裸括号会直接引发 sh 语法错误（这个坑踩过一次）。
 
 ### LSP（`plugin-lsp.lua`，附着到已启动 LSP 的 buffer）
 
@@ -130,7 +132,7 @@ Leader 是 **空格**。以下全部可执行验证，来源文件见括号。
 - **mason 工具自己声明安装**：`ensure_installed` 只接受 lspconfig 注册过的 language server，装不了 stylua/shfmt 这类工具；与其引入 `mason-tool-installer` 这个胶水插件，不如直接调 mason 自带的 registry API（`is_installed` / `has_package` / `get_package` / `refresh`），十行代码解决，零新依赖。
 - **已装齐时零开销**：工具声明先本地判重，全都在就直接返回，不联网、不刷 registry。
 - **LSP 启用交给 mason-lspconfig v2**：`ensure_installed` 里的 server 会被自动 `vim.lsp.enable`，不再写 `handlers` 回调——该选项在 v2 已被移除，保留只会让人误以为它生效。
-- **WSL 剪贴板桥接**写死在 `remap.lua`，非 WSL 环境自动跳过。
+- **WSL 剪贴板桥接**写死在 `remap.lua`，非 WSL 环境自动跳过；粘贴命令的单引号包裹是必需项，见快捷键章节的说明。
 
 ## 排错
 
